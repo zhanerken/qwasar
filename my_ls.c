@@ -20,8 +20,8 @@ typedef struct options_t {
     int flag_a;
     int flag_t;
     int files_count;
-    int opt_count;
-    char* files_list;
+    int opt_ind;
+    char** files_list;
 } options_t;
 
 int	files_arg_handler(char **file_arg, int files_count, options_t *opt);
@@ -35,66 +35,69 @@ int cmpstruct_time(const void* v1,const void* v2);
 bool isOption(char* str);
 void set_Option(options_t* opt, char* str);
 options_t* get_opt(int ac, char** av);
+void set_files_list(options_t* opt, int argc, char** argv);
+void free_opt(options_t* opt);
 
 int main(int argc, char **argv) {
 
-    int count_arg = 0;
-    int files_count=0;
-    
-    char **file_arg = NULL;
+    int count_arg = 0; 
     options_t *opt = (options_t*) malloc(sizeof(options_t));
     
-    
     opt=get_opt(argc, argv);
-    printf("a=%d R=%d t=%d opt_count=%d argc=%d \n", opt->flag_a,opt->flag_R,opt->flag_t, opt->opt_count, argc);
+    printf("a=%d R=%d t=%d opt_count=%d argc=%d \n", opt->flag_a,opt->flag_R,opt->flag_t, opt->opt_ind, argc);
   
+    set_files_list(opt, argc, argv);
 
-    /*
-    for (int i=0;i<argc;i++)
-    {
-        if (argv[i][0] == '-'){
-            if (strchr(argv[i],'a') != NULL) opt->flag_a = 1;
-            if (strchr(argv[i],'R') != NULL) opt->flag_R = 1;
-            if (strchr(argv[i],'t') != NULL) opt->flag_t = 1;
-            count_opt++;
-        }
-    }*/
+    files_arg_handler(opt->files_list, opt->files_count, opt);
 
-    files_count=argc-opt->opt_count;
-
-    if (opt->opt_count < argc) {
-
-        file_arg = (char **) malloc (files_count*sizeof(char *) );
-        count_arg = 0;
-
-        while (opt->opt_count < argc) {
-            file_arg[count_arg]  = malloc(100*sizeof(char));
-            printf("argc is %d; optind is %d \n",argc,opt->opt_count);
-            strcpy(file_arg[count_arg++], argv[opt->opt_count++]);
-        }
-    }
-
-    files_arg_handler(file_arg, files_count, opt);
-
-    free(file_arg);
-    free(opt);
+    free_opt(opt);
 
     return 0;
 
+}
+
+void free_opt(options_t* opt)
+{
+    for(int i=0;i<opt->files_count;i++)
+    {
+        free(opt->files_list[i]);
+    }
+
+    free(opt);
+}
+
+void set_files_list(options_t* opt, int argc, char** argv)
+{   
+    int count_arg=0;
+    
+    opt->files_count=argc-opt->opt_ind;
+   
+    if (opt->opt_ind < argc) {
+
+        opt->files_list = (char **) malloc (opt->files_count*sizeof(char *) );
+        count_arg = 0;
+
+        while (opt->opt_ind < argc) {
+            opt->files_list[count_arg]  = malloc(100*sizeof(char));
+            printf("argc is %d; optind is %d \n",argc,opt->opt_ind);
+            strcpy(opt->files_list[count_arg++], argv[opt->opt_ind++]);
+        }
+    }
+    
 }
 
 options_t* get_opt(int ac, char** av)
 {
     options_t* opt= (options_t*) malloc(1*sizeof(options_t));
     int index=1;
-    opt->opt_count=1;
+    opt->opt_ind=1;
     
     while(index<ac)
     {
         if (isOption(av[index]))
         {
             set_Option(opt, av[index]);
-            opt->opt_count++;
+            opt->opt_ind++;
         }
         index++;
     }
