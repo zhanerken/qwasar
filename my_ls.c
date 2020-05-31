@@ -24,7 +24,7 @@ typedef struct options_t {
     char** files_list;
 } options_t;
 
-int	files_arg_handler(char **file_arg, int files_count, options_t *opt);
+int	files_arg_handler(options_t *opt);
 int	ls_base(char *file_path, options_t *opt, int indent);
 int cmpstruct(const void* v1,const void* v2);
 int cmpstr(const void* v1,const void* v2);
@@ -40,15 +40,14 @@ void free_opt(options_t* opt);
 
 int main(int argc, char **argv) {
 
-    int count_arg = 0; 
-    options_t *opt = (options_t*) malloc(sizeof(options_t));
+    options_t *opt;
     
     opt=get_opt(argc, argv);
-    printf("a=%d R=%d t=%d opt_count=%d argc=%d \n", opt->flag_a,opt->flag_R,opt->flag_t, opt->opt_ind, argc);
+    //printf("a=%d R=%d t=%d opt_count=%d argc=%d \n", opt->flag_a,opt->flag_R,opt->flag_t, opt->opt_ind, argc);
   
     set_files_list(opt, argc, argv);
 
-    files_arg_handler(opt->files_list, opt->files_count, opt);
+    files_arg_handler(opt);
 
     free_opt(opt);
 
@@ -68,19 +67,18 @@ void free_opt(options_t* opt)
 
 void set_files_list(options_t* opt, int argc, char** argv)
 {   
-    int count_arg=0;
+    int index=0;
     
     opt->files_count=argc-opt->opt_ind;
    
     if (opt->opt_ind < argc) {
 
         opt->files_list = (char **) malloc (opt->files_count*sizeof(char *) );
-        count_arg = 0;
 
         while (opt->opt_ind < argc) {
-            opt->files_list[count_arg]  = malloc(100*sizeof(char));
-            printf("argc is %d; optind is %d \n",argc,opt->opt_ind);
-            strcpy(opt->files_list[count_arg++], argv[opt->opt_ind++]);
+            opt->files_list[index]  = malloc(100*sizeof(char));
+            //printf("argc is %d; optind is %d \n",argc,opt->opt_ind);
+            strcpy(opt->files_list[index++], argv[opt->opt_ind++]);
         }
     }
     
@@ -88,7 +86,7 @@ void set_files_list(options_t* opt, int argc, char** argv)
 
 options_t* get_opt(int ac, char** av)
 {
-    options_t* opt= (options_t*) malloc(1*sizeof(options_t));
+    options_t* opt= (options_t*) malloc(sizeof(options_t));
     int index=1;
     opt->opt_ind=1;
     
@@ -143,15 +141,15 @@ bool isOption(char* str)
 }
 
 
-int	files_arg_handler(char **file_arg, int files_count, options_t *opt)
+int	files_arg_handler(options_t *opt)
 {
-    _qsort(file_arg, sizeof(char*), 0, files_count-1, (int (*)(void*, void*))(cmpstr));
-    if (files_count == 0) ls_base(".", opt, 0);
+    _qsort(opt->files_list, sizeof(char*), 0, opt->files_count-1, (int (*)(void*, void*))(cmpstr));
+    if (opt->files_count == 0) ls_base(".", opt, 0);
 
-    for (int i=0; i<files_count;i++)
+    for (int i=0; i<opt->files_count;i++)
     {
-        printf("%s:\n",file_arg[i]);
-        ls_base(file_arg[i],opt, 0);
+        printf("%s:\n",opt->files_list[i]);
+        ls_base(opt->files_list[i],opt, 0);
     }
 
     return 0;
