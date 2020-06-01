@@ -23,28 +23,24 @@ char* my_strcat(char *dest, const char *src)
     return rdest;
 }
 
-char *my_strcpy(char *destination, char *source)
+char *my_strcpy(char *dest, char *src)
 {
-    char *start = destination;
+    char *start = dest;
  
-    while(*source != '\0')
+    while(*src != '\0')
     {
-        *destination = *source;
-        destination++;
-        source++;
+        *dest = *src;
+        dest++;
+        src++;
     }
- 
-    *destination = '\0'; // add '\0' at the end
+    *dest = '\0';
     return start;
 }
 
 void my_memcpy(void *dest, void *src, int n) 
 { 
-   // Typecast src and dest addresses to (char *) 
    char *csrc = (char *)src; 
    char *cdest = (char *)dest; 
-  
-   // Copy contents of src[] to dest[] 
    for (int i=0; i<n; i++) 
        cdest[i] = csrc[i]; 
 } 

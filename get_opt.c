@@ -5,6 +5,9 @@ options_t* get_opt(int ac, char** av)
     options_t* opt= (options_t*) malloc(sizeof(options_t));
     int index=1;
     opt->opt_ind=1;
+    opt->flag_a=0;
+    opt->flag_R=0;
+    opt->flag_t=0;
     
     while(index<ac)
     {
