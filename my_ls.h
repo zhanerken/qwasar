@@ -37,3 +37,8 @@ void set_option(options_t* opt, char* str);
 options_t* get_opt(int ac, char** av);
 void set_files_list(options_t* opt, int argc, char** argv);
 void free_opt(options_t* opt);
+void* my_memset(void *b, int c, int len);
+char* my_strcat(char *dest, const char *src);
+char* my_strcpy(char *destination, char *source);
+void my_memcpy(void *dest, void *src, int n);
+int my_strcmp(const char* s1, const char* s2); 

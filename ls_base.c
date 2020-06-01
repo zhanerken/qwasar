@@ -22,10 +22,10 @@ int	ls_base(char *file_path, options_t *opt)
 
         if(opt->flag_a == 0 && entry->d_name[0] == '.') continue;
 
-        memset(path, 0, sizeof(path));
-        strcat(path, file_path);
-        strcat(path, "/");
-        strcat(path, entry->d_name);
+        my_memset(path, 0, sizeof(path));
+        my_strcat(path, file_path);
+        my_strcat(path, "/");
+        my_strcat(path, entry->d_name);
         lstat(path,&buffer);
 
         entry_list[entry_count].name=(char*)malloc(1000*sizeof(char));
@@ -38,8 +38,8 @@ int	ls_base(char *file_path, options_t *opt)
                entry_list[entry_count].time*=1000000000;
                entry_list[entry_count].time+=buffer.st_mtim.tv_nsec;
 
-               strcpy(entry_list[entry_count].name,entry->d_name);
-               strcpy(entry_list[entry_count].path,path);
+               my_strcpy(entry_list[entry_count].name,entry->d_name);
+               my_strcpy(entry_list[entry_count].path,path);
                entry_list[entry_count].is_dir = true;
                dir_count++;
 
@@ -49,8 +49,8 @@ int	ls_base(char *file_path, options_t *opt)
            entry_list[entry_count].time*=1000000000;
            entry_list[entry_count].time+=buffer.st_mtim.tv_nsec;
 
-           strcpy(entry_list[entry_count].name,entry->d_name);
-           strcpy(entry_list[entry_count].path,path);
+           my_strcpy(entry_list[entry_count].name,entry->d_name);
+           my_strcpy(entry_list[entry_count].path,path);
            entry_list[entry_count].is_dir = false;
           
                }
@@ -66,7 +66,7 @@ int	ls_base(char *file_path, options_t *opt)
     if (dir_count>0)
     for(int i=0;i<entry_count;i++)
     {
-        if (entry_list[i].is_dir == true && opt->flag_R==1 && strcmp(entry_list[i].name, ".") != 0  && strcmp(entry_list[i].name, "..") != 0)
+        if (entry_list[i].is_dir == true && opt->flag_R==1 && my_strcmp(entry_list[i].name, ".") != 0  && my_strcmp(entry_list[i].name, "..") != 0)
         {   printf("%s:\n", entry_list[i].path);
             ls_base(entry_list[i].path, opt);
         }
