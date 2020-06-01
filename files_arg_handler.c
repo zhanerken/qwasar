@@ -2,7 +2,7 @@
 
 int	files_arg_handler(options_t *opt)
 {
-    if (opt->files_count == 0)ls_base(".", opt);
+    if (opt->files_count == 0) ls_base(".", opt);
     else
     {
         _qsort(opt->files_list, sizeof(char*), 0, opt->files_count - 1, (int (*)(void*, void*))(cmpstr));

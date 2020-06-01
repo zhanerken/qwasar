@@ -54,7 +54,6 @@ void set_option(options_t* opt, char* str)
 
 bool isOption(char* str)
 {
-      if (str[0] == '-') return true; 
-
+    if (str[0] == '-') return true; 
     return false;
 }
