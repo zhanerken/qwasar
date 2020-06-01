@@ -6,7 +6,7 @@ int	files_arg_handler(options_t *opt)
     else
     {
         _qsort(opt->files_list, sizeof(char*), 0, opt->files_count-1, (int (*)(void*, void*))(cmpstr));
-
+      
         for (int i=0; i<opt->files_count;i++)
         {
             if(is_dir(opt->files_list[i]) != 0)
