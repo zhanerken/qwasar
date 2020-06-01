@@ -6,7 +6,7 @@ int main(int argc, char **argv) {
     
     opt=get_opt(argc, argv); //parse options -Rat
   
-    set_files_list(opt, argc, argv);//parse file
+    set_files_list(opt, argc, argv);//parse file names
 
     files_arg_handler(opt);
 

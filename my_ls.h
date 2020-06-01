@@ -7,7 +7,6 @@
 #include <stdbool.h>
 #include <time.h>
 
-
 typedef struct fileinfo_t {
     long long 	time;
     char * name;
@@ -42,3 +41,5 @@ char* my_strcat(char *dest, const char *src);
 char* my_strcpy(char *destination, char *source);
 void my_memcpy(void *dest, void *src, int n);
 int my_strcmp(const char* s1, const char* s2); 
+int is_dir(const char *path);
+int is_file(const char *path);

@@ -15,6 +15,8 @@ int	ls_base(char *file_path, options_t *opt)
 
     if (dirp == NULL)
     {
+        free(entry_list);
+        closedir(dirp);
         return (1);
     }
 
@@ -88,7 +90,6 @@ int	ls_base(char *file_path, options_t *opt)
 
 void print_data(fileinfo_t *entry_list, int entry_count, int indent)
 {
-
     for(int i=0;i<entry_count;i++)
     printf("%*s- %s\n", indent, "", entry_list[i].name);
 }
