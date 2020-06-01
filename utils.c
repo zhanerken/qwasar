@@ -1,33 +1,31 @@
 #include "my_ls.h"
 
-void* my_memset(void *b, int c, int len)
+void *my_memset(void *b, int c, int len)
 {
-  unsigned char *p = b;
-  while(len > 0)
+    unsigned char *p = b;
+
+    while (len > 0)
     {
-      *p = c;
-      p++;
-      len--;
+    *p = c;
+    p++;
+    len--;
     }
-  return(b);
+
+    return (b);
 }
 
-char* my_strcat(char *dest, const char *src)
+char *my_strcat(char *dest, const char *src)
 {
     char *rdest = dest;
-
-    while (*dest)
-      dest++;
-    while ((*dest++ = *src++))
-      ;
+    while (*dest) dest++;
+    while ((*dest++ = *src++));
     return rdest;
 }
 
 char *my_strcpy(char *dest, char *src)
 {
     char *start = dest;
- 
-    while(*src != '\0')
+    while (*src != '\0')
     {
         *dest = *src;
         dest++;
@@ -37,17 +35,16 @@ char *my_strcpy(char *dest, char *src)
     return start;
 }
 
-void my_memcpy(void *dest, void *src, int n) 
-{ 
-   char *csrc = (char *)src; 
-   char *cdest = (char *)dest; 
-   for (int i=0; i<n; i++) 
-       cdest[i] = csrc[i]; 
-} 
-
-int my_strcmp(const char* s1, const char* s2)
+void my_memcpy(void *dest, void *src, int n)
 {
-    while(*s1 && (*s1 == *s2))
+    char *csrc = (char *)src; 
+    char *cdest = (char *)dest;
+    for (int i = 0; i < n; i++) cdest[i] = csrc[i];
+}
+
+int my_strcmp(const char *s1, const char *s2)
+{
+    while (*s1 && (*s1 == *s2))
     {
         s1++;
         s2++;
