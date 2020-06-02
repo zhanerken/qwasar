@@ -42,7 +42,7 @@ int	ls_base(char *file_path, options_t *opt)
            my_strcpy(entry_list[entry_count].path, path);
            entry_list[entry_count].is_dir = true;
            dir_count++;
-           } else
+        } else
             {
                entry_list[entry_count].time = buffer.st_mtim.tv_sec;
                entry_list[entry_count].time *= 1000000000;
